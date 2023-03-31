@@ -118,5 +118,26 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public void AsignaProfesor (int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_ASIGNAPROFESOR");
+                datos.setearParametro("@IDUSUARIO", idUsuario);
+
+                datos.ejectutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
