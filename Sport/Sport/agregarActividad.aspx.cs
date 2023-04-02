@@ -31,10 +31,27 @@ namespace Sport
                 ddlProfesores.DataValueField = "Id";
                 ddlProfesores.DataBind();
 
+            }
+            string idClase = Request.QueryString["Clase"] != null ? Request.QueryString["Clase"].ToString() : "";
+            if (idClase != "" && !IsPostBack)
+            {
+                ActividadNegocio actNegocio = new ActividadNegocio();
+                Actividad actSeleccionada = (actNegocio.Listar(idClase)[0]);
 
+                txtActividad.Text = actSeleccionada.actividad;
+                txtDias.Text = actSeleccionada.Dias;
+                txtImagenUrl.Text = actSeleccionada.Imagen;
 
+                txtFechaInicio.Text = actSeleccionada.fechaInicio.ToString();
+                txtFechaFin.Text = actSeleccionada.fechaFin.ToString("");
+                txtHorarioInicio.Text = actSeleccionada.horarioInicio.ToString();
+                txtHorarioFin.Text = actSeleccionada.horarioFin.ToString();
+                txtPrecio.Text = actSeleccionada.precio.ToString();
+                ddlModalidad.SelectedValue = actSeleccionada.modalidad.Id.ToString();
+                ddlProfesores.SelectedValue = actSeleccionada.Profesor.Id.ToString();
 
             }
+
 
 
         }
@@ -79,7 +96,7 @@ namespace Sport
                 act.Imagen = txtImagenUrl.Text;
                 act.Profesor = new Usuario();
                 act.Profesor.Id = int.Parse(ddlProfesores.SelectedValue);
-
+                act.precio = decimal.Parse(txtPrecio.Text);
                 act.modalidad = new Modalidad();
                 act.modalidad.Id = int.Parse(ddlModalidad.SelectedValue);
                 actividadNegocio.Agregar(act);
@@ -96,6 +113,25 @@ namespace Sport
         {
             if (txtDias.Text.Length != 0)
                 txtDias.Text = "";
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            string idClase = Request.QueryString["Clase"] != null ? Request.QueryString["Clase"].ToString() : "";
+            if (idClase != null || idClase != "")
+            {
+                ActividadNegocio actNegocio = new ActividadNegocio();
+                Actividad actSeleccionada = (actNegocio.Listar(idClase)[0]);
+
+                string mensaje = "Usted quiere eliminar la actividad " + actSeleccionada.actividad;
+                string script = "alert('" + mensaje + "');";
+                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", script, true);
+
+                actNegocio.Eliminar(idClase);
+                Response.Redirect("Actividades.aspx", false);
+
+            }
+
         }
     }
 

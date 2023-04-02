@@ -1,10 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="agregarActividad.aspx.cs" Inherits="Sport.agregarActividad" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="row">
-        <div style="text-align:center; padding-bottom:50px;">
-            <h2 style="font-family:'Sans Serif Collection';">Agregue una Actividad</h2>
+        <div style="text-align: center; padding-bottom: 50px;">
+            <%if (Request.QueryString["Clase"] == null)
+                {%>
+            <h2 style="font-family: 'Sans Serif Collection';">Agregue una Actividad</h2>
+            <%}
+            else
+            { %>
+            <h2 style="font-family: 'Sans Serif Collection';">Realice un cambio</h2>
+            <%} %>
         </div>
         <div class="col-6">
             <div class="mb-3">
@@ -30,10 +38,18 @@
             </div>
             <div class="mb-3">
                 <asp:Label Text="Imagen" CssClass="form-label" runat="server" />
-                <asp:textBox ID="txtImagenUrl" onerror="this.src='https://assets.cdn-shop.com/mi-arte3-es/assets/img/backgrounds/placeholder-8b83e412a5.svg';" CssClass="form-control" runat="server"></asp:textBox>
+                <asp:TextBox ID="txtImagenUrl" onerror="this.src='https://assets.cdn-shop.com/mi-arte3-es/assets/img/backgrounds/placeholder-8b83e412a5.svg';" CssClass="form-control" runat="server"></asp:TextBox>
             </div>
+            <%if (Request.QueryString["Clase"] != null)
+                {%>
+            <asp:Button Text="Eliminar" CssClass=" btn btn-danger" ID="btnEliminar" OnClick="btnEliminar_Click" runat="server" />
+            <%} else
+            {%>
             <asp:Button Text="Agregar" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-success" runat="server" />
-            <asp:Label Text="" ID="lblErrorCampos" style="color:red;" runat="server" />
+            <asp:Label Text="" ID="lblErrorCampos" Style="color: red;" runat="server" />
+
+            <%} %>
+            
         </div>
 
         <div class="col-2" style="padding-top: 180px;">
@@ -63,9 +79,10 @@
             </div>
             <div class="mb-3">
                 <asp:Label Text="Precio(*)" CssClass="form-label" runat="server" />
-                <asp:TextBox ID="txtPrecio" CssClass="form-control" runat="server" />
+                <asp:TextBox ID="txtPrecio" TextMode="Number" step="0.01" CssClass="form-control" runat="server" />
             </div>
         </div>
+
 
     </div>
 </asp:Content>

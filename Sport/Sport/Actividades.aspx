@@ -24,6 +24,37 @@
         <br />
         <div class="row">
             <div class="col">
+
+                <h2 style="background: #F2F3F4; font-size: 25px; font-family: 'Sans Serif Collection';">Pendientes</h2>
+                <asp:Repeater ID="repetidorPendientes" runat="server">
+                    <ItemTemplate>
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="<%#Eval("Actividad.Imagen")%>" class="img-fluid rounded-start" onerror="this.src='https://assets.cdn-shop.com/mi-arte3-es/assets/img/backgrounds/placeholder-8b83e412a5.svg';" alt="...">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><%#Eval("Actividad.actividad")%></h5>
+                                        <p style="color: grey"><%#Eval("Actividad.Dias")%></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        <p style="color: grey">De: <%#Eval("Actividad.horarioInicio")%>  hasta: <%#Eval("Actividad.horarioFin")%> </p>
+                                        <p style="color: grey;" class="card-text">$<%#Eval("Actividad.Precio")%></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+
+
+
+
+
                 <h2 style="background: #F2F3F4; font-size: 25px; font-family: 'Sans Serif Collection';">Mis Inscripciones</h2>
                 <asp:Repeater ID="repetidorMisInscripciones" runat="server">
                     <ItemTemplate>
@@ -34,7 +65,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card-body">
-                                        <h5 class="card-title"><%#Eval("Actividad.actividad")%></h5>  
+                                        <h5 class="card-title"><%#Eval("Actividad.actividad")%></h5>
                                         <p style="color: grey"><%#Eval("Actividad.Dias")%></p>
                                     </div>
                                 </div>
@@ -72,7 +103,8 @@
                                         <hr />
                                         <p style="color: grey">De: <%#Eval("horarioInicio")%>  hasta: <%#Eval("horarioFin")%> </p>
                                         <p style="color: grey;" class="card-text">$<%#Eval("Precio")%></p>
-                                        <asp:Button Text="Inscribirse" ID="btnInscribirse" OnClick="btnInscribirse_Click" CssClass="btn btn-primary" CommandArgument='<%#Eval("Id")%>' runat="server" />
+                                        <asp:Button Text="Modificar" ID="btnModificar" AutoPostBack="true" OnClick="btnModificar_Click" CssClass="btn btn-success" CommandArgument='<%#Eval("Id")%>' runat="server" />
+                                        <asp:Button Text="Inscribirse" ID="btnInscribirse" AutoPostBack="true" OnClick="btnInscribirse_Click" CssClass="btn btn-primary" CommandArgument='<%#Eval("Id")%>' runat="server" />
                                     </div>
                                 </div>
                             </div>

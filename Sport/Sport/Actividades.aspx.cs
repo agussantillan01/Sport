@@ -13,6 +13,7 @@ namespace Sport
     {
         public List<Actividad> listaActividades { get; set; }
         public List<ActividadXusuario> listaMisInscripciones { get; set; }
+        public List<ActividadXusuario> listaMisPendientes{ get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,7 +28,12 @@ namespace Sport
             ActividadXusuarioNegocio actXusNeg = new ActividadXusuarioNegocio();
             listaMisInscripciones = actXusNeg.listarMisInscripciones(3);
             repetidorMisInscripciones.DataSource = listaMisInscripciones; 
-            repetidorMisInscripciones.DataBind();   
+            repetidorMisInscripciones.DataBind();
+
+
+            listaMisPendientes = actXusNeg.listarMisSolicitudesPendientes(3);
+            repetidorPendientes.DataSource = listaMisPendientes;
+            repetidorPendientes.DataBind();
 
 
         }
@@ -72,6 +78,13 @@ namespace Sport
 
 
 
+        }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            string idSeleccionado = ((Button)sender).CommandArgument.ToString();
+
+            Response.Redirect("agregarActividad.aspx?Clase="+idSeleccionado, false);
         }
     }
 }

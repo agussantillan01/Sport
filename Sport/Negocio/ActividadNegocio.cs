@@ -41,13 +41,14 @@ namespace Negocio
             }
         }
 
-        public List<Actividad> Listar()
+        public List<Actividad> Listar(string id = "")
         {
             List<Actividad> lista = new List<Actividad>();
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearProcedimiento("SP_LISTAACTIVIDADES");
+                datos.setearParametro("@IDACTIVIDAD", id);
 
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
@@ -84,6 +85,27 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public void Eliminar(string id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("SP_ELIMINARACTIVIDAD");
+                datos.setearParametro("@IDACTIVIDAD", id);
+
+                datos.ejectutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
         }
     }
 }
