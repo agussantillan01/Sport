@@ -22,7 +22,7 @@
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <asp:TextBox type="password" ID="txtPassword" class="form-control" runat="server" />
             </div>
-            <asp:Button Text="Ingresar" ID="btnIngresar" CssClass="btn btn-primary" runat="server" />
+            <asp:Button Text="Ingresar" ID="btnIngresar" OnClick="btnIngresar_Click" CssClass="btn btn-primary" runat="server" />
             <a href="creaCuenta.aspx">Crea una cuenta</a>
 
         </div>

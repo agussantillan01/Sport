@@ -76,7 +76,11 @@
                     </div>
                 </div>
                 <div class="navbar-nav" style="float: right; padding-right: 3px; padding-left=15px;">
-                     <a class="nav-link" style="color: white;" href="ABMs.aspx"><i class="fa-sharp fa-solid fa-gear"></i></a>
+                    <%if ((Dominio.Usuario)Session["Usuario"] != null)
+                        {%>
+                    <a class="nav-link" style="color: white;" href="DatosPersonales.aspx"><i class="fa-solid fa-user"></i></a>
+                    <% } %>
+                     
                     <a class="nav-link btn btn-outline-success" style="color: white;" href="Login.aspx">LogIn</a>
                 </div>
             </nav>

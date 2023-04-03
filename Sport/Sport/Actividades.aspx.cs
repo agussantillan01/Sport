@@ -13,7 +13,7 @@ namespace Sport
     {
         public List<Actividad> listaActividades { get; set; }
         public List<ActividadXusuario> listaMisInscripciones { get; set; }
-        public List<ActividadXusuario> listaMisPendientes{ get; set; }
+        public List<ActividadXusuario> listaMisPendientes { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,7 +27,7 @@ namespace Sport
 
             ActividadXusuarioNegocio actXusNeg = new ActividadXusuarioNegocio();
             listaMisInscripciones = actXusNeg.listarMisInscripciones(3);
-            repetidorMisInscripciones.DataSource = listaMisInscripciones; 
+            repetidorMisInscripciones.DataSource = listaMisInscripciones;
             repetidorMisInscripciones.DataBind();
 
 
@@ -58,22 +58,37 @@ namespace Sport
         }
         protected void btnInscribirse_Click(object sender, EventArgs e)
         {
-            var idSeleccionado = int.Parse(((Button)sender).CommandArgument);
-            //generarAlerta(idSeleccionado);
-            ActividadXusuario actividadXusuario = new ActividadXusuario();
 
 
-            UsuarioNegocio usNeg = new UsuarioNegocio();
-            Usuario us = usNeg.ListaUsuarios().Find(x => x.Id == 3);
-            actividadXusuario.Usuario = us;
+            if (Session["Usuario"] != null)
+            {
+                var idSeleccionado = int.Parse(((Button)sender).CommandArgument);
+                //generarAlerta(idSeleccionado);
+                ActividadXusuario actividadXusuario = new ActividadXusuario();
 
-            ActividadNegocio actNeg = new ActividadNegocio();
-            Actividad act = actNeg.Listar().Find(x => x.Id == idSeleccionado);
 
-            actividadXusuario.Actividad = act;
+                UsuarioNegocio usNeg = new UsuarioNegocio();
+                Usuario us = (Usuario)Session["Usuario"];
+                
+                if (us.Nombre != null && us.Apellido != null && us.DNI != null && us.Email != null && us.Password != null && us.FechaNacimiento != null)
+                {
+                    actividadXusuario.Usuario = us;
 
-            ActividadXusuarioNegocio actXusuarioNeg = new ActividadXusuarioNegocio();
-            actXusuarioNeg.Agregar(actividadXusuario); 
+                    ActividadNegocio actNeg = new ActividadNegocio();
+                    Actividad act = actNeg.Listar().Find(x => x.Id == idSeleccionado);
+
+                    actividadXusuario.Actividad = act;
+                    ActividadXusuarioNegocio actXusuarioNeg = new ActividadXusuarioNegocio();
+                    actXusuarioNeg.Agregar(actividadXusuario);
+                }
+
+                string mensaje = "Debe completar sus datos personales para poder inscribirse.";
+                string script = "alert('" + mensaje + "');";
+                ClientScript.RegisterStartupScript(this.GetType(), "mensaje", script, true);
+                Response.Redirect("DatosPersonales?idUsuario="+us.Id+".aspx", false);
+
+            } 
+
 
 
 
@@ -84,7 +99,7 @@ namespace Sport
         {
             string idSeleccionado = ((Button)sender).CommandArgument.ToString();
 
-            Response.Redirect("agregarActividad.aspx?Clase="+idSeleccionado, false);
+            Response.Redirect("agregarActividad.aspx?Clase=" + idSeleccionado, false);
         }
     }
 }
